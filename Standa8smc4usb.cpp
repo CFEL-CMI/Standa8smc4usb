@@ -39,7 +39,7 @@ static const char *RcsId = "$Id:  $";
 //        (Program Obviously used to Generate tango Object)
 //=============================================================================
 
-
+#include <thread>
 #include <ximc.h>
 #include "Standa8smc4usb.h"
 #include "Standa8smc4usbClass.h"
@@ -1231,6 +1231,25 @@ void Standa8smc4usb::move(Tango::DevFloat argin)
 	//	Add your own code
 	command_move_calb(this->device, argin, &this->calb);
 	/*----- PROTECTED REGION END -----*/	//	Standa8smc4usb::move
+    this->set_state(Tango::MOVING);
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+}
+//--------------------------------------------------------
+/**
+ * Override get_state
+ * Description:
+ * check id the hardware is in moving state
+ * @param
+**/
+//--------------------------------------------------------
+Tango::DevState Standa8smc4usb::dev_state(){
+     result_t result = get_status_calb(this->device, &this->status, &this->calb);
+     if(this->status.MvCmdSts & MVCMD_RUNNING) {
+         return Tango::MOVING;
+     }else{
+         return Tango::ON;
+     }
 }
 //--------------------------------------------------------
 /**

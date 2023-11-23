@@ -60,6 +60,8 @@ namespace Standa8smc4usb_ns
 class Standa8smc4usb : public TANGO_BASE_CLASS
 {
 
+
+
 /*----- PROTECTED REGION ID(Standa8smc4usb::Data Members) ENABLED START -----*/
 
 //	Add your own data members
@@ -558,6 +560,7 @@ public:
 	virtual void home();
 	virtual bool is_Home_allowed(const CORBA::Any &any);
 
+    virtual Tango::DevState dev_state();
 
 /*----- PROTECTED REGION ID(Standa8smc4usb::Additional Method prototypes) ENABLED START -----*/
 
